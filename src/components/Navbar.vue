@@ -36,40 +36,59 @@
         class="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0"
       >
         <li class="lg:mr-12">
-          <a
-            class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-            href="/"
-            >Home</a
-          >
+          <router-link to="/">Home</router-link>
         </li>
         <li class="lg:mr-12">
-          <a
-            class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-            href="/kategori"
-            >Category</a
-          >
+          <router-link to="/folder">Folders</router-link>
         </li>
         <li class="lg:mr-12">
-          <a
-            class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-            href="#"
-            >Document</a
-          >
+          <router-link to="/document">Document</router-link>
+        </li>
+        <li class="lg:mr-12">
+          <router-link to="/message"> Message </router-link>
         </li>
       </ul>
-      <hr class="mt-4 w-full lg:hidden" />
-      <div
-        class="my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0"
-      >
-        <a
-          href="#"
-          title=""
-          class="whitespace-nowrap rounded font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2 hover:text-opacity-50"
+      
+      <span class="inline-flex justify-center items-center ml-5">
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Log in
-        </a>
-        <!-- <a href="#" title="" class="whitespace-nowrap rounded-xl bg-blue-700 px-5 py-3 font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 hover:bg-blue-600">Get free trial</a> -->
-      </div>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+          ></path>
+        </svg>
+      </span>
+      <button @click="handleLogout" class="...">Logout</button>
+    
     </nav>
   </header>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions("auth", ["logout"]), // Memetakan action logout dari modul auth
+
+    async handleLogout() {
+      try {
+        // Panggil action logout
+        await this.logout();
+
+        // Setelah logout berhasil, lakukan navigasi ke halaman login atau halaman lain yang sesuai
+        this.$router.push("/login");
+      } catch (error) {
+        console.error("Error logging out:", error.message);
+      }
+    },
+  },
+};
+</script>

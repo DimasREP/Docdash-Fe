@@ -1,31 +1,71 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-import LoginView from "../views/LoginView.vue";
-import RegisterView from "../views/RegisterView.vue";
+import LoginView from "../views/auth/LoginView.vue";
 import HomeView from "../views/user/HomeView.vue";
-import KategoriView from "../views/user/KategoriView.vue";
+import FolderView from "../views/user/FolderView.vue";
 import Layoutuser from "../layout/userlayout.vue";
 import LayoutAdmin from "../layout/adminlayout.vue";
 import DashboardAdmin from "../views/admin/DashboardAdmin.vue";
 import MeneUser from "../views/admin/ManajementUser.vue";
+import Document from "../views/user/Document.vue";
+import Message from "../views/user/Message.vue";
+import Profile from "../views/admin/Profile.vue";
+import store from "../store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/login",
+      name: "login",
+      component: LoginView,
+      meta: {
+        title: "Login",
+      },
+      beforeEnter: (to, from, next) => {
+        const isAuthenticated = store.getters["auth/isAuthenticated"];
+        if (isAuthenticated) {
+          const role = localStorage.getItem("role");
+          if (role === "admin") {
+            next("/admin");
+          } else if (role === "user") {
+            next("/");
+          }
+        } else {
+          next();
+        }
+      },
+    },
+    {
       path: "/",
       name: "user",
       component: Layoutuser,
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
           path: "/",
           name: "home",
           component: HomeView,
+          meta: {
+            title: "HomeView",
+            requiresAuth: true,
+          },
         },
         {
-          path: "/kategori",
-          name: "Kategori",
-          component: KategoriView,
+          path: "/folder",
+          name: "Folder",
+          component: FolderView,
+        },
+        {
+          path: "/document",
+          name: "Document",
+          component: Document,
+        },
+        {
+          path: "message",
+          name: "Message",
+          component: Message,
         },
       ],
     },
@@ -33,31 +73,56 @@ const router = createRouter({
       path: "/admin",
       name: "LayoutAdmin",
       component: LayoutAdmin,
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
-          path: "/admin",
+          path: "",
           name: "DashboardAdmin",
           component: DashboardAdmin,
+          meta: {
+            title: "AdminDashboard",
+            requiresAuth: true,
+          },
         },
         {
-          path: "/admin/meneuser",
+          path: "meneuser",
           name: "MeneUser",
           component: MeneUser,
         },
+        {
+          path: "profile",
+          name: "Profile",
+          component: Profile,
+        },
       ],
     },
-
-    {
-      path: "/register",
-      name: "register",
-      component: RegisterView,
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: LoginView,
-    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.getters["auth/isAuthenticated"];
+  const requiresAuth = to.meta.requiresAuth;
+  const userRole = localStorage.getItem("role");
+
+  if (requiresAuth && !isAuthenticated) {
+    next({
+      name: "login",
+    });
+  } else {
+    if (userRole === "admin" && to.path.indexOf("/admin") === -1) {
+      next({
+        name: "DashboardAdmin",
+      });
+    } else if (userRole === "user" && to.path.indexOf("/admin") !== -1) {
+      next({
+        name: "home",
+      });
+    } else {
+      next();
+    }
+  }
 });
 
 export default router;
