@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-28 ml-80 m-10 max-w-sm">
+  <div class="mt-28 ml-96 m-10 max-w-sm">
     <div class="rounded-lg border bg-white px-4 pt-8 pb-10 shadow-lg">
       <div class="relative mx-auto w-36 rounded-full">
         <img class="mx-auto h-auto w-full rounded-full"

@@ -12,12 +12,12 @@
 
       <div>
         <div class="relative mt-2 w-full">
-          <input v-model="formKey.username" autocomplete="off" id="email" name="email" type="text"
+          <input v-model="formKey.username" autocomplete="off" id="username" name="username" type="text"
             class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-blue-600"
-            placeholder="Email address" />
+            placeholder="Username" />
           <label for="email"
             class="origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600 absolute left-1 top-2 z-10 -translate-y-4 scale-75 transform cursor-text select-none bg-white px-2 text-sm text-gray-500 duration-300">
-            Enter Your Email
+            Enter Your Username
           </label>
         </div>
       </div>
@@ -41,9 +41,12 @@
       </div>
       <p class="text-center text-gray-600">
         Don't have an account?
-        <a href="/register" class="whitespace-nowrap font-semibold text-gray-900 hover:underline">Sign up</a>
+        <router-link to="/register">
+          <a class="whitespace-nowrap font-semibold text-gray-900 hover:underline">Sign up</a>
+        </router-link>
       </p>
     </div>
+
     <!-- /Login -->
   </div>
 </template>

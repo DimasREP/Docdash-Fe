@@ -9,11 +9,18 @@ import MeneUser from "../views/admin/ManajementUser.vue";
 import Document from "../views/user/Document.vue";
 import Message from "../views/user/Message.vue";
 import Profile from "../views/admin/Profile.vue";
+import Inbox from "../views/admin/Inbox.vue";
 import store from "../store";
+import Register from "../views/auth/Register.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path:"/register",
+      name:"Register",
+      component: Register
+    },
     {
       path: "/login",
       name: "login",
@@ -35,6 +42,7 @@ const router = createRouter({
         }
       },
     },
+    
     {
       path: "/",
       name: "user",
@@ -92,12 +100,18 @@ const router = createRouter({
           component: MeneUser,
         },
         {
+          path: "inbox",
+          name: "Inbox",
+          component: Inbox,
+        },
+        {
           path: "profile",
           name: "Profile",
           component: Profile,
         },
       ],
     },
+    
   ],
 });
 

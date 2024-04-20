@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
 import auth from "./module/auth/auth.js";
-import user from "./module/user.js";
+import folder from "./module/folder.js";
+import document from "./module/document.js";
+
 
 
 const store = createStore({
@@ -8,8 +10,9 @@ const store = createStore({
     isLoading: false,
   },
   modules: {
-    auth,
-   user
+   auth,
+   folder,
+   document
   },
 });
 

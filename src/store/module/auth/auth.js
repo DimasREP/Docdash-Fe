@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Swal from "sweetalert2";
 const auth = {
   namespaced: true,
   state: {
@@ -18,6 +18,8 @@ const auth = {
   
   },
   actions: {
+
+    
     async login({ commit }, credentials) {
       try {
         const response = await axios.post("/api/v1/auth/login", credentials);
@@ -42,7 +44,6 @@ const auth = {
         throw new Error(errorMessage);
       }
     },
-    
     
     
     async fetchMe({ commit }) {
@@ -88,6 +89,61 @@ const auth = {
         return false;
       }
     },
+
+    async deleteUser({ commit, dispatch }, id) {
+      try {
+          // Tampilkan SweetAlert2 untuk konfirmasi penghapusan
+          const confirmResult = await Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+          });
+
+          // Jika pengguna mengklik "Yes", maka hapus produk dari keranjang
+          if (confirmResult.isConfirmed) {
+              // Hapus produk dari keranjang
+              const hapususer = await axios.delete(`/api/v1/user/${id}`,  {
+                  // headers: {
+                  //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  // }
+              });
+              console.log(hapususer.data);
+
+              Swal.fire(
+                  'Deleted!',
+                  'Your product has been deleted.',
+                  'success'
+              );
+          } else {
+              // Jika pengguna mengklik "Cancel", produk tidak dihapus dari keranjang
+              Swal.fire(
+                  'Cancelled',
+                  'Your product is safe :)',
+                  'error'
+              );
+          }
+      } catch (error) {
+          console.log(error);
+      } finally {
+          dispatch("auth/fetchAllUsers", null, { root: true });
+      }
+  },
+
+    async register({ commit }, credentials) {
+      try {
+       
+        const response = await axios.post("http://localhost:3000/api/v1/auth/register", credentials);
+
+      } catch (error) {
+        console.error("Error during registration:", error);
+        return false;
+      } 
+      
+    },
   },
   mutations: {
     SET_ROLE(state, role) {
@@ -102,6 +158,7 @@ const auth = {
     SET_USER(state, auth) {
       state.users = auth;
     },
+    
     
   },
 };
