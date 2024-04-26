@@ -4,8 +4,8 @@
       <a href="#" class="flex items-center whitespace-nowrap text-2xl font-black mr-8">
         <span class="mr-2 w-8">
           <img src="" alt="" />
-        </span>
-        DocDash
+        </span>   
+        DocDash 
       </a>
       <input type="checkbox" class="peer hidden" id="navbar-open" />
       <label class="absolute top-5 right-5 cursor-pointer lg:hidden" for="navbar-open">
@@ -24,9 +24,9 @@
           <li class="lg:mr-12">
             <router-link to="/document">Document</router-link>
           </li>
-          <li class="lg:mr-12">
+          <!-- <li class="lg:mr-12">
             <router-link to="/message"> Message </router-link>
-          </li>
+          </li> -->
         </ul>
         
         <span class="inline-flex justify-center items-center ml-5">
@@ -64,7 +64,7 @@ export default {
 
 <style scoped>
 
-header {
+header {                                             
   position: sticky;
   top: 0;
   z-index: 1000;

@@ -50,7 +50,7 @@ const auth = {
       try {
 
         // Ambil Bearer Token dari Local Storage
-        const token = localStorage.getItem("token"); // Gantilah 'your_token_key' dengan kunci token Anda
+        const token = localStorage.getItem("token");
 
         const response = await axios.get("/api/v1/auth/me", {
           headers: {
@@ -64,9 +64,6 @@ const auth = {
         return users;
       } catch (error) {
         console.error("Error fetching user data:", error.message);
-
-      
-
         return false;
       }
     },
@@ -103,9 +100,9 @@ const auth = {
               confirmButtonText: 'Yes, delete it!'
           });
 
-          // Jika pengguna mengklik "Yes", maka hapus produk dari keranjang
+          // Jika pengguna mengklik "Yes", maka hapus user
           if (confirmResult.isConfirmed) {
-              // Hapus produk dari keranjang
+              // Hapus user
               const hapususer = await axios.delete(`/api/v1/user/${id}`,  {
                   // headers: {
                   //     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -119,7 +116,7 @@ const auth = {
                   'success'
               );
           } else {
-              // Jika pengguna mengklik "Cancel", produk tidak dihapus dari keranjang
+              // Jika pengguna mengklik "Cancel", user tidak dihapus 
               Swal.fire(
                   'Cancelled',
                   'Your product is safe :)',
@@ -136,13 +133,12 @@ const auth = {
     async register({ commit }, credentials) {
       try {
        
-        const response = await axios.post("http://localhost:3000/api/v1/auth/register", credentials);
+        const response = await axios.post("http://localhost:8080/api/v1/auth/register", credentials);
 
       } catch (error) {
         console.error("Error during registration:", error);
         return false;
       } 
-      
     },
   },
   mutations: {
@@ -158,8 +154,6 @@ const auth = {
     SET_USER(state, auth) {
       state.users = auth;
     },
-    
-    
   },
 };
 

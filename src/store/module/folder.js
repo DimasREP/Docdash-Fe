@@ -11,7 +11,7 @@ const folder = {
   actions: {
     async fetchFolder({ commit }) {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/folders");
+        const response = await axios.get("http://localhost:8080/api/v1/folders");
         commit("SET_FOLDER", response.data);
         return response.data
       } catch (error) {
@@ -21,7 +21,7 @@ const folder = {
     },
     async addFolder({ commit }, folderData) {
       try {
-        const response = await axios.post("http://localhost:3000/api/v1/folders", folderData);
+        const response = await axios.post("http://localhost:8080/api/v1/folders", folderData);
         return response.data
 
       } catch (error) {
@@ -31,7 +31,7 @@ const folder = {
     },
     async updateFolder({ commit }, folderData) {
       try {
-        await axios.put(`http://localhost:3000/api/v1/folders/${folderData.id}`, folderData);
+        await axios.put(`http://localhost:8080/api/v1/folders/${folderData.id}`, folderData);
         return response.data
        
       } catch (error) {
@@ -40,7 +40,7 @@ const folder = {
     },
     async deleteFolder({ commit }, folderId) {
       try {
-        await axios.delete(`http://localhost:3000/api/v1/folders/${folderId}`);
+        await axios.delete(`http://localhost:8080/api/v1/folders/${folderId}`);
         return response.data
         
       } catch (error) {

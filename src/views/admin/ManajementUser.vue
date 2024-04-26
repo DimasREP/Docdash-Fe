@@ -9,13 +9,12 @@
           <tr class="border-b">
             <th class="text-left p-3 px-5">Name</th>
             <th class="text-left p-3 px-5">Email</th>
-            <th class="text-left p-3 px-5">Role</th>
             <th class="text-left p-3 px-5">Action</th>
           </tr>
           <tr v-for="user in getMe" :key="user.id" class="border-b">
             <td class="p-3 px-5">{{ user.username }}</td>
             <td class="p-3 px-5">{{ user.email }}</td>
-            <td class="p-3 px-5">{{ user.role }}</td>
+            <!-- <td class="p-3 px-5">{{ user.role }}</td> -->
             <td class="p-3 px-5">
               <button @click="deleteUser(user.id)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

@@ -71,8 +71,9 @@
       </article>
     </div>
   </section>
+  <br>
 
-  <div class="bg-white py-6 sm:py-8 lg:py-12 mt-12">
+  <!-- <div class="bg-white py-6 sm:py-8 lg:py-12 mt-12">
     <div class="mx-auto max-w-screen-xl px-4 md:px-8">
       <div class="grid gap-8 md:grid-cols-2 lg:gap-12">
         <div class="md:pt-8 lg:flex lg:flex-col lg:justify-center">
@@ -121,10 +122,6 @@
         </div>
       </div>
     </div>
-  </div>
-
+  </div> -->
   <Footer></Footer>
 </template>
-<script setup>
-// import Footer from "../components/user/Footer.vue";
-</script>

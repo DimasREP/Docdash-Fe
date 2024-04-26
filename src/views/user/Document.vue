@@ -13,7 +13,7 @@
               </label>
               <input type="text"
                 class="sm: mr-4 block w-full whitespace-pre rounded-lg border p-1 pr-10 text-base outline-none focus:shadow sm:text-sm"
-                placeholder="Search..." />
+                placeholder="Search..." v-model="searchQuery" @input="filterDocuments" />
             </div>
             <button @click="showModal = true"
               class="inline-flex cursor-pointer items-center rounded-lg border border-gray-400 bg-white py-2 px-3 text-center text-sm font-medium text-gray-800 shadow hover:bg-gray-100 focus:shadow">
@@ -54,28 +54,50 @@
             </tr>
           </thead>
           <tbody class="lg:border-gray-300">
-            <tr v-for="(item, index) in getDocument" :key="item.id">
-              <td width="20%" class="whitespace-no-wrap py-4 text-sm font-bold text-gray-900 sm:px-6">
-                {{ index + 1 }}
-              </td>
-              <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
-                {{ item.namefile }}
-              </td>
-              <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
-                {{ item.file }}
-              </td>
-              <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
-                {{ item.createdAt }}
-              </td>
-              <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
-                {{ item.updatedAt }}
-              </td>
-              <td class="px-6 py-4">
-                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                |
-                <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-              </td>
-            </tr>
+            <template v-if="filteredDocuments.length > 0">
+              <tr v-for="(item, index) in filteredDocuments" :key="item.id">
+                <td width="20%" class="whitespace-no-wrap py-4 text-sm font-bold text-gray-900 sm:px-6">
+                  {{ index + 1 }}
+                </td>
+                <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                  {{ item.namefile }}
+                </td>
+                <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                  {{ item.file }}
+                </td>
+                <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                  {{ item.createdAt }}
+                </td>
+                <td class="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                  {{ item.updatedAt }}
+                </td>
+                <div class="bungkus ml-5 mt-6" style="display: flex; align-items: center; gap: 5px ">
+                  <button @click="showEditPopup(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                      class="w-6 h-6 text-blue-700">
+                      <path
+                        d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                      <path
+                        d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                    </svg>
+                  </button>
+                  |
+                  <button @click="deleteFolder(item.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                      class="w-6 h-6 text-red-600">
+                      <path fill-rule="evenodd"
+                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </tr>
+            </template>
+            <template v-else>
+              <tr>
+                <td colspan="6" class="text-center py-4 text-gray-500">Nama file yang Anda cari tidak ada.</td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -96,21 +118,28 @@
               </svg>
             </button>
           </div>
-          <form @submit.prevent="addData">
+          <form @submit.prevent="submitData" enctype="multipart/form-data">
+            <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700">ID Folder:</label>
+              <input v-model="formKey.folder_id" type="text" required
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            </div>
             <div class="mt-4">
               <label class="block text-sm font-medium text-gray-700">Nama File:</label>
-              <input v-model="newData.namefile" type="text" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+              <input v-model="formKey.namefile" type="text" required
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
             </div>
             <div class="mt-4">
               <label class="block text-sm font-medium text-gray-700">File:</label>
-              <input type="file" @change="onFileChange" accept="" multiple
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+              <input type="file" @change="handleFileUpload" name="file" id="file"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
             </div>
 
             <div class="mt-4 flex justify-end">
               <button type="submit"
-                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Simpan</button>
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                Simpan
+              </button>
             </div>
           </form>
         </div>
@@ -120,59 +149,76 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   data() {
     return {
       showModal: false,
-      newData: {
-        namefile: '',
-        file: '',
-      }
-    }
+      searchQuery: "",
+      formKey: {
+        folder_id: "",
+        namefile: "",
+        file: null
+      },
+    };
   },
   computed: {
     ...mapGetters("document", ["getDocument"]),
+    filteredDocuments() {
+      return this.getDocument.filter(item =>
+        item.namefile.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
   methods: {
-    ...mapActions("document", ["fetchDocument"], ["addDocument"]),
-    async addData() {
-      const documentData = {
-        namefile: this.newData.namefile,
-        file: this.newData.file
-      };
-      try {
-        const success = await this.$store.dispatch(
-          "document/addDocument",
-          documentData
-        );
-        this.newData.namefile = "";
-        this.newData.file = "";
-        this.showAddPopup = false;
-        if (success) {
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "File Berhasil Ditambahkan!",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          this.fetchDocument();
+    ...mapActions("document", ["fetchDocument", "addData"]),
+    handleFileUpload(event) {
+      const fileInput = event.target.files[0];
+      if (!fileInput) return;
+      if (fileInput) {
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+        if (!allowedTypes.includes(fileInput.type)) {
+          this.$message.error(
+            "Invalid file type. Please upload a valid image file."
+          );
+          return;
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Add FIle failed! Please try again.",
+
+        const maxSize = 5 * 1024 * 1024; // 5 MB in bytes
+        if (fileInput.size > maxSize) {
+          this.$message.error(
+            "File size exceeds the limit. Please upload a file less than 5 MB."
+          );
+          return;
+        }
+        // Set file object to formKey
+        this.formKey.file = fileInput;
+      } else {
+        this.formKey.file = null;
+      }
+    },
+    async submitData() {
+      try {
+        const formData = new FormData();
+        Object.keys(this.formKey).forEach((key) => {
+          formData.append(key, this.formKey[key]);
         });
+
+        await this.addData(formData);
+        this.showModal = false;
+        this.fetchDocument();
+      } catch (error) {
         console.error("Error adding file:", error);
       }
+    },
+    filterDocuments() {
+      // Fetch documents when search query changes
+      this.fetchDocument();
     },
   },
   created() {
     this.fetchDocument();
-
   },
-}
+};
 </script>

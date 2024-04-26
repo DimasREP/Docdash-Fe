@@ -62,6 +62,7 @@
               </a>
             </router-link>
           </li>
+          
           <li>
             <router-link to="/admin/meneuser">
               <a
@@ -78,7 +79,8 @@
               </a>
             </router-link>
           </li>
-          <li>
+
+          <!-- <li>
             <router-link to="/admin/inbox">
               <a
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
@@ -97,15 +99,15 @@
                 </span>
               </a>
             </router-link>
-          </li>
-          <li class="px-5">
+          </li> -->
+          <!-- <li class="px-5">
             <div class="flex flex-row items-center h-8">
               <div class="text-sm font-light tracking-wide text-gray-500">
                 Tasks
               </div>
             </div>
-          </li>
-          <div class="relative transition">
+          </li> -->
+          <!-- <div class="relative transition">
             <input class="peer hidden" type="checkbox" id="menu-1" checked />
             <button
               class="flex peer relative w-full items-center border-l-blue-600 py-3 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4">
@@ -143,7 +145,7 @@
                 Refunds
               </li>
             </ul>
-          </div>
+          </div> -->
 
           <li>
             <router-link to="/admin/profile">
@@ -187,14 +189,11 @@ import { mapActions } from "vuex";
 
 export default {
   methods: {
-    ...mapActions("auth", ["logout"]), // Memetakan action logout dari modul auth
+    ...mapActions("auth", ["logout"]), 
 
     async handleLogout() {
       try {
-        // Panggil action logout
         await this.logout();
-
-        // Setelah logout berhasil, lakukan navigasi ke halaman login atau halaman lain yang sesuai
         this.$router.push("/login");
       } catch (error) {
         console.error("Error logging out:", error.message);
